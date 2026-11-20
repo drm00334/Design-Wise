@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>DesignWise: Ethical Product Design</title>
+<style>
+:root{--bg:#F4F7F6;--card:#fff;--ink:#14302F;--mute:#587372;--line:#D5E0DE;--accent:#0F6B66;--on:#fff;--good:#1E8E5A;--mid:#B7791F;--bad:#C0392B;--goodbg:#E3F4EB;--midbg:#FBF1DC;--badbg:#FBE6E3;
+--amber:#E8A33D;--rev:#3A6FD8;--glow1:rgba(15,107,102,.13);--glow2:rgba(232,163,61,.14);--shadow:0 6px 18px rgba(20,48,47,.08);
+--grad:linear-gradient(135deg,#0F6B66 0%,#14877F 52%,#1E8E5A 100%);
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0E1B1A;--card:#152625;--ink:#E6F1EF;--mute:#9DB8B5;--line:#28403E;--accent:#4FC1B9;--on:#0E1B1A;--good:#4CC38A;--mid:#E3B04B;--bad:#F07167;--goodbg:#12352A;--midbg:#3A2F14;--badbg:#3C1B19;--rev:#7FA8FF;--glow1:rgba(79,193,185,.10);--glow2:rgba(232,163,61,.07);--shadow:0 6px 18px rgba(0,0,0,.35);--grad:linear-gradient(135deg,#0B3B38 0%,#11574F 55%,#17664B 100%)}}
+:root[data-theme="dark"]{--bg:#0E1B1A;--card:#152625;--ink:#E6F1EF;--mute:#9DB8B5;--line:#28403E;--accent:#4FC1B9;--on:#0E1B1A;--good:#4CC38A;--mid:#E3B04B;--bad:#F07167;--goodbg:#12352A;--midbg:#3A2F14;--badbg:#3C1B19;--rev:#7FA8FF;--glow1:rgba(79,193,185,.10);--glow2:rgba(232,163,61,.07);--shadow:0 6px 18px rgba(0,0,0,.35);--grad:linear-gradient(135deg,#0B3B38 0%,#11574F 55%,#17664B 100%)}
+[hidden]{display:none!important}
+html{background:var(--bg);scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;color:var(--ink);font:16px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);
+background-image:radial-gradient(circle at 8% 0%,var(--glow1),transparent 42%),radial-gradient(circle at 100% 32%,var(--glow2),transparent 38%);background-attachment:fixed;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--bg);z-index:10}
+h1,h2,h3{font-family:Georgia,"Times New Roman",serif;line-height:1.2;margin:0 0 .5rem}
+h1{font-size:2rem}h2{font-size:1.4rem}h3{font-size:1.1rem}
+p{margin:.4rem 0 1rem;max-width:62ch}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:9;background:color-mix(in srgb,var(--bg) 88%,transparent);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:.5rem;padding:.6rem 1rem}
+.brand{display:flex;align-items:center;gap:.5rem;font:700 1.15rem Georgia,serif;color:var(--accent)}
+.logo{width:28px;height:28px;border-radius:9px;background:var(--grad);color:#fff;display:grid;place-items:center;font:700 .95rem Georgia,serif;box-shadow:0 3px 8px rgba(15,107,102,.35)}
+nav{display:flex;gap:.2rem}
+nav button{background:none;border:0;color:var(--mute);font:inherit;font-size:.92rem;font-weight:600;padding:.5rem .65rem;border-radius:999px;cursor:pointer;transition:background .2s,color .2s}
+nav button[aria-current="page"]{background:var(--accent);color:var(--on)}
+main{max-width:640px;margin:0 auto;padding:1.25rem 1rem 4.5rem}
+button:focus-visible,summary:focus-visible,input:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.btn{display:inline-block;background:var(--accent);color:var(--on);border:0;border-radius:12px;padding:.8rem 1.3rem;font:inherit;font-weight:700;cursor:pointer;box-shadow:0 4px 12px rgba(15,107,102,.25);transition:transform .15s,box-shadow .15s}
+.btn:hover{transform:translateY(-2px);box-shadow:0 8px 18px rgba(15,107,102,.3)}
+.btn:active{transform:translateY(0)}
+.btn.alt{background:none;color:var(--accent);border:2px solid var(--accent);box-shadow:none}
+.btn.sm{padding:.5rem .9rem;font-size:.9rem;border-radius:999px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:1rem;margin-bottom:.75rem}
+section:not([hidden]){animation:rise .45s ease both}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+
+/* hero */
+.hero{position:relative;overflow:hidden;border-radius:22px;padding:1.6rem 1.25rem 1.4rem;background:var(--grad);color:#fff;box-shadow:var(--shadow);margin-bottom:1.1rem}
+.hero h1{color:#fff;position:relative;z-index:2;font-size:2.05rem}
+.hero p{color:rgba(255,255,255,.92);position:relative;z-index:2}
+.eyebrow{display:inline-block;position:relative;z-index:2;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.3);border-radius:999px;padding:.2rem .75rem;font-size:.78rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:.8rem}
+.orb{position:absolute;border-radius:50%;filter:blur(26px);opacity:.55;animation:drift 9s ease-in-out infinite alternate}
+.o1{width:170px;height:170px;background:#F2C14E;top:-50px;right:-40px}
+.o2{width:140px;height:140px;background:#6FE3C4;bottom:-50px;left:-30px;animation-delay:-3s}
+.o3{width:90px;height:90px;background:#fff;top:40%;right:25%;opacity:.25;animation-delay:-6s}
+@keyframes drift{to{transform:translate(22px,-16px) scale(1.15)}}
+.fl{position:absolute;z-index:1;font-size:1.7rem;opacity:.9;animation:bob 4.5s ease-in-out infinite;filter:drop-shadow(0 4px 6px rgba(0,0,0,.2))}
+.f1{top:12%;right:8%}.f2{top:46%;right:20%;animation-delay:-1.2s;font-size:1.4rem}.f3{bottom:12%;right:6%;animation-delay:-2.4s}.f4{top:8%;right:30%;animation-delay:-3.3s;font-size:1.3rem}
+@keyframes bob{50%{transform:translateY(-10px) rotate(6deg)}}
+.chips{display:flex;flex-wrap:wrap;gap:.45rem;position:relative;z-index:2;margin:.2rem 0 1.1rem}
+.chip{background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.28);border-radius:999px;padding:.25rem .75rem;font-size:.85rem;font-weight:600}
+.namebox{position:relative;z-index:2;margin:0 0 1rem}
+.namebox label{display:block;font-size:.82rem;font-weight:700;margin-bottom:.3rem;color:rgba(255,255,255,.9)}
+.namebox input{width:100%;max-width:340px;box-sizing:border-box;border:2px solid rgba(255,255,255,.35);background:rgba(255,255,255,.14);color:#fff;border-radius:12px;padding:.65rem .9rem;font:inherit}
+.namebox input::placeholder{color:rgba(255,255,255,.65)}
+.hero .row{position:relative;z-index:2}
+.hero .btn{background:#fff;color:#0F6B66;box-shadow:0 6px 14px rgba(0,0,0,.2)}
+.hero .btn.alt{background:rgba(255,255,255,.12);color:#fff;border-color:rgba(255,255,255,.7)}
+.steps{padding-left:0;list-style:none;display:grid;gap:.6rem;margin:1rem 0;counter-reset:s}
+.steps li{counter-increment:s;display:flex;gap:.75rem;align-items:center;background:var(--card);border:1px solid var(--line);border-left:4px solid var(--accent);padding:.65rem .9rem;border-radius:0 12px 12px 0;box-shadow:var(--shadow)}
+.steps li::before{content:counter(s);flex:none;width:28px;height:28px;border-radius:50%;background:var(--grad);color:#fff;font-weight:700;display:grid;place-items:center;font-size:.9rem}
+.sc{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem;margin:1rem 0 .4rem}
+.sc div{background:var(--card);border:1px solid var(--line);border-radius:12px;text-align:center;padding:.6rem .4rem;font-size:.8rem;color:var(--mute)}
+.sc b{display:block;font:700 1.5rem Georgia,serif;color:var(--accent)}
+
+/* learn */
+.prog{height:10px;background:var(--line);border-radius:6px;overflow:hidden;margin:.2rem 0 .3rem}
+.prog u{display:block;height:100%;width:0;background:var(--grad);border-radius:6px;transition:width .4s}
+.proglab{font-size:.85rem;color:var(--mute);margin:0 0 1rem}
+details{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:.75rem 1rem;margin-bottom:.65rem;box-shadow:var(--shadow);transition:border-color .2s}
+details[open]{border-color:var(--accent)}
+summary{font-weight:700;cursor:pointer;display:flex;align-items:center;gap:.7rem;list-style:none}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";margin-left:auto;color:var(--accent);font-size:1.4rem;line-height:1;transition:transform .25s}
+details[open] summary::after{transform:rotate(45deg)}
+.ico{flex:none;width:38px;height:38px;border-radius:12px;display:grid;place-items:center;font-size:1.25rem;background:var(--goodbg)}
+details:nth-of-type(2n) .ico{background:var(--midbg)}
+details:nth-of-type(3n) .ico{background:var(--badbg)}
+details p{margin:.7rem 0 .5rem}
+.where{display:inline-block;background:var(--goodbg);color:var(--good);font-size:.78rem;font-weight:700;border-radius:999px;padding:.15rem .65rem}
+.scholar{background:var(--goodbg);border:1px solid var(--good);border-radius:12px;padding:.7rem 1rem;margin:0 0 1rem;font-weight:600}
+
+/* play */
+.meters{display:grid;grid-template-columns:1fr 1fr;gap:.9rem 1rem;align-items:end;margin-bottom:1rem;position:relative;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:.8rem 1rem;box-shadow:var(--shadow)}
+.m{position:relative}
+.m span{display:block;font-size:.8rem;color:var(--mute)}
+.m b{font:700 1.6rem Georgia,serif}
+.m i{display:block;height:10px;background:var(--line);border-radius:6px;overflow:hidden;margin-top:.5rem}
+.m u{display:block;height:100%;width:0;background:var(--accent);transition:width .5s,background .4s;border-radius:6px}
+#mg{background:var(--mid)}
+#mv{background:var(--rev)}
+.m small{font-size:.75rem;color:var(--mute);font-weight:700}
+.pop{position:absolute;left:0;top:-4px;font-weight:800;font-size:1rem;pointer-events:none;animation:pop 1.2s ease-out forwards;white-space:nowrap;z-index:3}
+.pop.good{color:var(--good)}.pop.bad{color:var(--bad)}.pop.mid{color:var(--mid)}
+@keyframes pop{from{opacity:1;transform:translateY(0) scale(.9)}to{opacity:0;transform:translateY(-34px) scale(1.25)}}
+.topline{display:flex;justify-content:space-between;align-items:center;gap:.5rem;flex-wrap:wrap}
+.round{color:var(--mute);font-size:.9rem;margin:0 0 .25rem}
+.streak{font-size:.85rem;font-weight:700;background:var(--midbg);color:var(--mid);border-radius:999px;padding:.15rem .7rem}
+.streak.hot{animation:pulse 1s ease-in-out infinite}
+@keyframes pulse{50%{transform:scale(1.08)}}
+.dots{display:flex;gap:.3rem;margin:.1rem 0 1rem}
+.dots span{flex:1;height:8px;border-radius:5px;background:var(--line);transition:background .3s}
+.dots .on{background:var(--accent);opacity:.55}
+.dots .good{background:var(--good)}.dots .mid{background:var(--mid)}.dots .bad{background:var(--bad)}
+.scene{display:flex;gap:.9rem;align-items:center;margin-bottom:.3rem}
+.scene .big{flex:none;width:54px;height:54px;border-radius:16px;background:var(--grad);display:grid;place-items:center;font-size:1.7rem;box-shadow:var(--shadow)}
+.scene h2{margin:0}
+.pressure{display:flex;gap:.7rem;align-items:flex-start;background:var(--midbg);border:1px solid var(--mid);border-radius:14px;padding:.7rem .9rem;margin:.1rem 0 1rem}
+.pressure .av{flex:none;width:36px;height:36px;border-radius:50%;background:var(--card);display:grid;place-items:center;font-size:1.2rem}
+.pressure b{display:block;font-size:.78rem;color:var(--mute);text-transform:uppercase;letter-spacing:.05em}
+.pressure p{margin:0;font-style:italic;font-size:.95rem}
+.opts{display:grid;gap:.6rem;margin:1rem 0}
+.opt{display:flex;gap:.8rem;align-items:flex-start;text-align:left;background:var(--card);color:var(--ink);border:2px solid var(--line);border-radius:14px;padding:.85rem 1rem;font:inherit;cursor:pointer;transition:transform .15s,border-color .2s,box-shadow .2s}
+.opt .l{flex:none;width:28px;height:28px;border-radius:50%;background:var(--line);color:var(--ink);display:grid;place-items:center;font-weight:800;font-size:.85rem}
+.opt:hover:not(:disabled){border-color:var(--accent);transform:translateY(-2px);box-shadow:var(--shadow)}
+.opt:disabled{cursor:default}
+.opt.good{border-color:var(--good);background:var(--goodbg)}.opt.mid{border-color:var(--mid);background:var(--midbg)}.opt.bad{border-color:var(--bad);background:var(--badbg)}
+.opt.good .l{background:var(--good);color:#fff}.opt.mid .l{background:var(--mid);color:#fff}.opt.bad .l{background:var(--bad);color:#fff}
+.opt.dim{opacity:.55}
+.hintrow{margin:-.2rem 0 1rem}
+.hint{background:var(--midbg);border:1px dashed var(--mid);border-radius:12px;padding:.7rem 1rem;margin-top:.6rem;animation:rise .3s ease both}
+.fb{border-radius:14px;padding:1rem;margin-bottom:1rem;border-left:6px solid;animation:rise .35s ease both}
+.fb.good{background:var(--goodbg);border-color:var(--good)}.fb.mid{background:var(--midbg);border-color:var(--mid)}.fb.bad{background:var(--badbg);border-color:var(--bad)}
+.fb strong{display:block;margin-bottom:.25rem}
+.fx{display:flex;flex-wrap:wrap;gap:.4rem;margin:.7rem 0 0}
+.fx span{background:var(--card);border:1px solid var(--line);border-radius:999px;padding:.15rem .65rem;font-size:.8rem;font-weight:700;color:var(--mute)}
+.fx .up{color:var(--good)}.fx .dn{color:var(--bad)}
+.tag{font-size:.85rem;color:var(--mute)}
+.shake{animation:shake .45s}
+@keyframes shake{20%{transform:translateX(-8px)}40%{transform:translateX(8px)}60%{transform:translateX(-5px)}80%{transform:translateX(5px)}}
+
+/* end */
+.trophy{font-size:4rem;line-height:1;text-align:center;animation:bob 3s ease-in-out infinite}
+#end h2,#end .score{text-align:center}
+.score{font:700 3rem Georgia,serif;color:var(--accent);margin:0}
+#ev{margin-left:auto;margin-right:auto;text-align:center}
+.log{list-style:none;padding:0;margin:1rem 0;display:grid;gap:.4rem}
+.log li{padding:.5rem .8rem;border-radius:8px;font-size:.95rem}
+.log .good{background:var(--goodbg)}.log .mid{background:var(--midbg)}.log .bad{background:var(--badbg)}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem;margin:1rem 0}
+.stats div{background:var(--card);border:1px solid var(--line);border-radius:12px;text-align:center;padding:.55rem .2rem;font-size:.75rem;color:var(--mute)}
+.stats b{display:block;font:700 1.2rem Georgia,serif;color:var(--ink)}
+.badges{display:grid;grid-template-columns:repeat(2,1fr);gap:.55rem;margin:.6rem 0 1rem}
+.bdg{display:flex;gap:.6rem;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:.55rem .7rem;font-size:.82rem;line-height:1.3}
+.bdg .e{font-size:1.5rem}
+.bdg b{display:block;font-size:.85rem}
+.bdg.off{opacity:.4;filter:grayscale(1)}
+.bdg.on{border-color:var(--amber);background:var(--midbg)}
+h3.sec{margin-top:1.2rem}
+.row{display:flex;gap:.6rem;flex-wrap:wrap}
+#end .row{justify-content:center}
+
+/* extras */
+.fab{position:fixed;right:max(14px,env(safe-area-inset-right,0px));bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:20;width:46px;height:46px;border-radius:50%;border:1px solid var(--line);background:var(--card);color:var(--ink);font-size:1.25rem;cursor:pointer;box-shadow:var(--shadow);transition:transform .2s}
+.fab:hover{transform:rotate(20deg) scale(1.08)}
+.cf{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:30}
+.cf span{position:absolute;top:-16px;width:9px;height:15px;border-radius:2px;animation:fall linear forwards}
+@keyframes fall{to{transform:translate(var(--dx),108vh) rotate(760deg)}}
+.toast{position:fixed;left:50%;bottom:calc(76px + env(safe-area-inset-bottom,0px));transform:translateX(-50%) translateY(20px);background:var(--ink);color:var(--bg);padding:.55rem 1.1rem;border-radius:999px;font-weight:600;font-size:.9rem;opacity:0;pointer-events:none;transition:opacity .25s,transform .25s;z-index:40}
+.toast.show{opacity:1;transform:translateX(-50%)}
+@media (max-width:380px){.stats{grid-template-columns:repeat(2,1fr)}.badges{grid-template-columns:1fr}.fl{display:none}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<header><span class="brand"><span class="logo" aria-hidden="true">D</span>DesignWise</span>
+<nav aria-label="Main menu"><button data-go="home">Home</button><button data-go="learn">Learn</button><button data-go="play">Play</button></nav></header>
+<main>
+<section id="home">
+<div class="hero">
+<span class="orb o1"></span><span class="orb o2"></span><span class="orb o3"></span>
+<span class="fl f1" aria-hidden="true">🔒</span><span class="fl f2" aria-hidden="true">🛡️</span><span class="fl f3" aria-hidden="true">💰</span><span class="fl f4" aria-hidden="true">✨</span>
+<span class="eyebrow">Ethical design game</span>
+<h1>Every design choice is a choice about people.</h1>
+<p>You are the lead designer of a new app. Make twelve product decisions, then see what each one does to your users’ privacy, their trust in you, your growth and your revenue.</p>
+<div class="chips"><span class="chip">🎯 12 decisions</span><span class="chip">📚 12 principles</span><span class="chip">⚖️ Real trade-offs</span><span class="chip">💡 Hints available</span></div>
+<div class="namebox"><label for="an">Name your app (optional)</label><input id="an" maxlength="24" placeholder="DesignWise" autocomplete="off"></div>
+<div class="row"><button class="btn" data-start>Start designing</button><button class="btn alt" data-go="learn">Learn the principles</button></div>
+</div>
+<ol class="steps">
+<li>Read the situation, hear the pressure from your team, and pick a design.</li>
+<li>Principled choices earn ethics points but can cost revenue. Shortcuts pay now but lose points and trust.</li>
+<li>Trust and money are linked: loyal users spend more and angry ones leave. If trust or revenue hits zero, the app shuts down.</li>
+</ol>
+<div class="sc" aria-label="What the meters mean"><div><b>⭐</b>Ethics points reward principled choices</div><div><b>💚</b>Trust keeps users and brings in revenue</div><div><b>💰</b>Revenue keeps the lights on</div></div>
+</section>
+
+<section id="learn" hidden>
+<h2>Ethical design principles</h2>
+<p>Tap a principle to read it. Each one comes up in the game.</p>
+<div class="prog" aria-hidden="true"><u id="lp"></u></div>
+<p class="proglab" id="ll">Explored 0 of 12 principles</p>
+<div id="sch" class="scholar" hidden>🎓 You have read every principle. You are ready to design!</div>
+<details><summary><span class="ico" aria-hidden="true">🤝</span>Informed consent</summary><p>Users agree knowingly and freely. Consent is separate for each use of data, written in plain language, and never pre-ticked.</p><span class="where">Comes up in Decision 1</span></details>
+<details><summary><span class="ico" aria-hidden="true">🎯</span>Data minimisation</summary><p>Collect only what the feature needs, keep it only as long as needed, and protect it. Data you never collect cannot leak.</p><span class="where">Comes up in Decision 2</span></details>
+<details><summary><span class="ico" aria-hidden="true">🔐</span>Privacy by default</summary><p>The safest settings are on from the start. Users can open things up, but they should not have to dig to protect themselves.</p><span class="where">Comes up in Decision 6</span></details>
+<details><summary><span class="ico" aria-hidden="true">🎭</span>No dark patterns</summary><p>Interfaces must not trick people with hidden buttons, guilt messages or confusing wording to make them act against their interests.</p><span class="where">Comes up in Decision 3</span></details>
+<details><summary><span class="ico" aria-hidden="true">🧒</span>Child safety</summary><p>Children need extra protection: age checks, parental consent and minimal data. Laws such as COPPA (USA) and the UK GDPR set rules for this.</p><span class="where">Comes up in Decision 4</span></details>
+<details><summary><span class="ico" aria-hidden="true">📣</span>Transparency and accountability</summary><p>Tell users quickly when something goes wrong. Data protection laws such as the GDPR and Jamaica’s Data Protection Act 2020 expect breaches to be handled openly.</p><span class="where">Comes up in Decision 5</span></details>
+<details><summary><span class="ico" aria-hidden="true">🔔</span>Digital wellbeing</summary><p>Design for people’s time and attention, not against it. Give users control over notifications, avoid guilt-based reminders, and make it easy to take a break.</p><span class="where">Comes up in Decision 7</span></details>
+<details><summary><span class="ico" aria-hidden="true">♿</span>Accessibility</summary><p>Everyone should be able to use your product, including people who are blind, have low vision, limited mobility or hearing loss. Build in screen-reader support, scalable text, good colour contrast and large tap targets from the start.</p><span class="where">Comes up in Decision 8</span></details>
+<details><summary><span class="ico" aria-hidden="true">🗑️</span>Right to deletion</summary><p>People should be able to delete their account and personal data without a fight. Make the process clear and simple, and actually delete the data instead of just hiding it. Laws such as the GDPR give people a right to erasure in many cases.</p><span class="where">Comes up in Decision 9</span></details>
+<details><summary><span class="ico" aria-hidden="true">⚖️</span>Fairness in AI</summary><p>Test automated features on many kinds of people before launch. A model trained on data that leaves some groups out can work worse for them. Fix known bias, or be honest about its limits.</p><span class="where">Comes up in Decision 10</span></details>
+<details><summary><span class="ico" aria-hidden="true">⭐</span>Honest marketing</summary><p>Ratings, reviews and testimonials must reflect real experiences. Fake or paid-for reviews deceive the public, and many countries have consumer protection rules against them.</p><span class="where">Comes up in Decision 11</span></details>
+<details><summary><span class="ico" aria-hidden="true">📦</span>Data stewardship</summary><p>Data collected under one set of promises should not pass to someone else without telling users and giving them a real choice. Data protection laws expect transfers, such as the sale of a company, to be handled openly.</p><span class="where">Comes up in Decision 12</span></details>
+<p></p>
+<button class="btn" data-start>Start designing</button>
+</section>
+
+<section id="play" hidden>
+<div class="meters" id="mtr" aria-label="Scoreboard">
+<div class="m"><span>⭐ Ethics points</span><b id="me">0</b></div>
+<div class="m"><span>💚 User trust <small id="mtv"></small></span><i><u id="mt"></u></i></div>
+<div class="m"><span>🚀 Growth <small id="mgv"></small></span><i><u id="mg"></u></i></div>
+<div class="m"><span>💰 Revenue <small id="mvv"></small></span><i><u id="mv"></u></i></div>
+</div>
+<div class="dots" id="dt" aria-hidden="true"></div>
+<div class="topline"><p class="round" id="rd"></p><span class="streak" id="sk" hidden></span></div>
+<div class="scene"><div class="big" id="ic" aria-hidden="true"></div><h2 id="tt"></h2></div>
+<p id="cx"></p>
+<div class="pressure"><span class="av" id="pa" aria-hidden="true"></span><div><b id="pw"></b><p id="pq"></p></div></div>
+<div class="opts" id="op"></div>
+<div class="hintrow" id="hr"><button class="btn alt sm" id="hb" type="button">💡 Need a hint?</button><div id="hn" aria-live="polite"></div></div>
+<div id="fb" aria-live="polite"></div>
+</section>
+
+<section id="end" hidden>
+<div class="trophy" id="etr" aria-hidden="true"></div>
+<h2 id="et"></h2>
+<p class="score" id="es"></p>
+<p id="ev"></p>
+<div class="stats" id="st4"></div>
+<h3 class="sec">Badges</h3>
+<div class="badges" id="bd"></div>
+<h3 class="sec">Your decisions</h3>
+<ul class="log" id="lg"></ul>
+<div class="row"><button class="btn" data-start>Play again</button><button class="btn" id="sh" type="button">📋 Share my score</button><button class="btn alt" data-go="learn">Review principles</button></div>
+</section>
+</main>
+<button class="fab" id="th" type="button" aria-label="Switch light or dark theme">🌙</button>
+<div class="cf" id="cf" aria-hidden="true"></div>
+<div class="toast" id="ts" role="status" aria-live="polite"></div>
+<script>
+/* e = ethics points, r = trust, g = growth, v = revenue ($k per month) */
+var S=[
+{t:"Sign-up consent",p:"Informed consent",q:["💼","CFO","Ad partners pay well for contact and health data. Every extra opt-in is real money."],c:"Your fitness app could earn more by sharing users’ contacts and health data with advertisers. How do you ask for permission?",o:[
+{x:"Ask separately for each type of data. Boxes start unticked, each with a plain reason.",k:"good",e:10,r:8,g:2,v:-5,f:"Consent is specific, informed and freely given. Fewer people opt in, so ad income is lower, but those who do trust you."},
+{x:"One combined “I agree” box that links to the full policy.",k:"mid",e:3,r:-3,g:5,v:4,f:"Legal on paper, but few people read policies. Bundled consent is not really informed."},
+{x:"Pre-tick the sharing box and bury it in the terms.",k:"bad",e:-8,r:-20,g:8,v:10,f:"Pre-ticked boxes are a dark pattern. The money is real, but consent that people do not notice is not consent."}]},
+{t:"Location tracking",p:"Data minimisation",q:["📈","Growth lead","If we always know where runners are, we can sell local partner deals."],c:"A feature shows nearby running routes. Knowing where users are would help, but it is sensitive data.",o:[
+{x:"Use location only while the app is open, and explain why.",k:"good",e:10,r:8,g:1,v:-3,f:"You collect what the feature needs and nothing more. Users stay in control, but you miss out on some partner income."},
+{x:"Track location all the time, with an off switch in settings.",k:"mid",e:3,r:-3,g:5,v:4,f:"The off switch helps, but constant tracking collects far more than the feature needs."},
+{x:"Track constantly in the background and sell the movement patterns.",k:"bad",e:-8,r:-25,g:7,v:11,f:"Location history reveals homes, workplaces and routines. Selling it is a serious privacy and safety risk."}]},
+{t:"Cancelling a subscription",p:"No dark patterns",q:["💼","CFO","Churn is our biggest leak. Anything that keeps subscribers paying helps."],c:"Many users want to cancel. Every cancellation costs you revenue.",o:[
+{x:"Cancel in two taps and send a confirmation email.",k:"good",e:10,r:10,g:2,v:-6,f:"Respecting a clear choice builds long-term loyalty, even though you lose subscription revenue today."},
+{x:"Put Cancel four menus deep under Account, Billing, then Manage.",k:"mid",e:3,r:-3,g:3,v:4,f:"Not hidden, but needless friction. Cancelling should be as easy as signing up."},
+{x:"Hide Cancel and show “You’ll lose everything!” when users find it.",k:"bad",e:-8,r:-20,g:4,v:10,f:"Guilt messages and hidden buttons are dark patterns. They manipulate people against their own interests."}]},
+{t:"Young users",p:"Child safety",q:["📣","Marketing","Teens are our fastest-growing group. Extra sign-up steps will lose some of them."],c:"Teenagers and younger children are downloading your app. You can verify age or let anyone in.",o:[
+{x:"Add an age check, ask for parental consent under 13, and collect minimal data from minors.",k:"good",e:10,r:8,g:-3,v:-4,f:"This follows the spirit of COPPA and similar laws. Children get extra protection, though the extra steps slow sign-ups."},
+{x:"Ask for a birth year and trust the answer.",k:"mid",e:3,r:-3,g:5,v:3,f:"Better than nothing, but easy to bypass and no parental consent is involved."},
+{x:"Skip age checks and treat everyone as an adult to grow faster.",k:"bad",e:-8,r:-25,g:10,v:8,f:"You would be collecting children’s data without safeguards, a legal and ethical failure."}]},
+{t:"Data breach",p:"Transparency",q:["🧑‍💼","Investor","We close a funding round next week. A breach headline could scare them off."],c:"Hackers copied 20,000 user emails and passwords. The fix will take a week.",o:[
+{x:"Tell affected users now, explain what leaked and help them secure their accounts.",k:"good",e:10,r:5,g:-2,v:-5,f:"Prompt, honest notice lets users change passwords before harm spreads. Trust takes a short hit but recovers, and the news may cost you some deals."},
+{x:"Post a notice in the help centre and wait for questions.",k:"mid",e:3,r:-3,g:2,v:2,f:"Technically public, but most users will never see it. Notify people directly."},
+{x:"Stay quiet until the fix is ready.",k:"bad",e:-8,r:-25,g:4,v:6,f:"Silence protects your funding round for now, but it leaves users exposed and often breaks data protection law. Cover-ups usually come out."}]},
+{t:"Profile defaults",p:"Privacy by default",q:["📈","Growth lead","Public profiles make the feed feel busy. Busy feeds keep people scrolling, and viewing ads."],c:"New users create profiles in your social feature. What is the starting setting?",o:[
+{x:"Private by default. Users choose what to share and with whom.",k:"good",e:10,r:8,g:-4,v:-3,f:"Privacy by default protects everyone, including people who never open the settings. The feed is quieter at first, so growth and ad views dip."},
+{x:"Public by default, with a one-time tip about privacy settings.",k:"mid",e:3,r:-3,g:5,v:4,f:"Gives some warning, but most people keep the defaults and expose more than they meant to."},
+{x:"Public by default and show new users’ locations to strangers.",k:"bad",e:-8,r:-25,g:9,v:8,f:"This puts users at risk of stalking and harassment. Safety must come before growth."}]},
+{t:"Notifications and streaks",p:"Digital wellbeing",q:["📣","Marketing","Streak reminders and guilt nudges doubled daily opens at our last company."],c:"Your app can nudge users to open it every day. Streak alerts bring people back, but some testers say they feel pressured.",o:[
+{x:"Let users choose how often they are reminded, and add rest days that do not break streaks.",k:"good",e:10,r:8,g:-2,v:-3,f:"Users who control the nudges feel respected. You lose some daily opens, but people stay because they want to."},
+{x:"Send one reminder a day by default, with a setting to turn it off.",k:"mid",e:3,r:-3,g:4,v:3,f:"Better than constant pings, but most people never change defaults, so some still feel nagged."},
+{x:"Send streak-loss warnings with guilt messages like “Your friends are ahead of you!” several times a day.",k:"bad",e:-8,r:-20,g:9,v:9,f:"Guilt and fear of loss drive opens in the short term. It is manipulation, and it can harm users’ wellbeing."}]},
+{t:"Accessibility",p:"Accessibility",q:["🛠️","Engineering lead","Accessibility work will delay the next feature by a month."],c:"Some users are blind, have low vision, or find small buttons hard to tap. Supporting screen readers and large text takes engineering time before your next release.",o:[
+{x:"Build accessibility in now: screen-reader labels, scalable text and good colour contrast.",k:"good",e:10,r:8,g:3,v:-5,f:"Accessible design opens your app to more people and makes it easier for everyone. It costs time and money upfront."},
+{x:"Ship now and promise to add accessibility later.",k:"mid",e:3,r:-3,g:4,v:3,f:"Later often means never. People who cannot use the app are shut out in the meantime."},
+{x:"Skip it. Most users will not notice.",k:"bad",e:-8,r:-20,g:5,v:6,f:"Shutting people out is unfair and can break the law in some places. It also shows up in reviews and press."}]},
+{t:"Account deletion",p:"Right to deletion",q:["🧪","Data lead","Our recommendation model learns from that workout history. Can we keep it?"],c:"A user asks you to delete their account. Their workout history helps train your recommendation engine and your retention reports.",o:[
+{x:"Delete the account and personal data fully, and confirm by email.",k:"good",e:10,r:8,g:0,v:-3,f:"Honouring deletion requests respects people’s control over their data. You lose a little data and gain confidence in your brand."},
+{x:"Deactivate the account and quietly keep the data in case they come back.",k:"mid",e:3,r:-3,g:2,v:3,f:"The user thinks their data is gone, but it is not. Hiding data is not deleting it."},
+{x:"Make users email a request that takes 60 days, and keep using their data in the meantime.",k:"bad",e:-8,r:-20,g:3,v:8,f:"Slow, obstructive deletion frustrates people and can break data protection laws."}]},
+{t:"The AI coach",p:"Fairness in AI",q:["🚀","CEO","The launch event is on Friday. Retraining the model will take two months."],c:"Your new AI coach suggests training plans. Testing shows it works well for young adult men but gives worse advice to women over 50 and to people with disabilities, because it learned mostly from young men’s data.",o:[
+{x:"Delay the launch, test with more varied users and retrain the model.",k:"good",e:10,r:8,g:-5,v:-6,f:"Fixing bias before launch avoids harm and makes a more useful product. It costs time, money and a launch-day buzz."},
+{x:"Launch on time with a notice that the coach is still being improved for some groups.",k:"mid",e:3,r:-3,g:5,v:4,f:"Honest about its limits, but some users will still get poor advice that they might act on."},
+{x:"Launch as planned and say nothing.",k:"bad",e:-8,r:-20,g:9,v:10,f:"Hiding known bias harms the people it fails, and trust collapses when it comes out."}]},
+{t:"App store rating",p:"Honest marketing",q:["📣","Marketing","Rating decides whether people tap Download. Every tenth of a star counts."],c:"Your app has 3.9 stars and a competitor has 4.7. Your marketing team has ideas for improving your rating.",o:[
+{x:"Invite all users to leave honest reviews, and fix the top complaints.",k:"good",e:10,r:8,g:2,v:-2,f:"Honest ratings take longer to improve, but they reflect a product people actually like."},
+{x:"Ask for reviews only right after a user finishes a great workout, when they feel good.",k:"mid",e:3,r:-3,g:5,v:4,f:"Timing prompts is common practice, but it nudges ratings up and gives a rosier picture than reality."},
+{x:"Pay people to write five-star reviews and post some from made-up accounts.",k:"bad",e:-8,r:-20,g:8,v:10,f:"Fake reviews deceive the public and break consumer protection rules in many countries."}]},
+{t:"A buyer calls",p:"Data stewardship",q:["🧑‍💼","Investor","This offer is generous. Users agreed to a privacy policy, and it is just a change of owner."],c:"A larger company offers to buy your app. Their price depends on getting your full user database, including health and location data.",o:[
+{x:"Accept only if users are told clearly, can delete their data before the transfer, and the buyer keeps your privacy promises.",k:"good",e:10,r:8,g:-2,v:-5,f:"People’s data should not change hands without them knowing. You may lose part of the sale price, but you keep your promises."},
+{x:"Sell the database and send users an email with a link to the new privacy policy.",k:"mid",e:3,r:-3,g:3,v:5,f:"Telling people is better than staying silent, but they get no real choice."},
+{x:"Sell everything quietly and let the buyer change the privacy policy later.",k:"bad",e:-8,r:-25,g:4,v:12,f:"Selling sensitive data without people’s knowledge breaks the promises they trusted you with."}]}
+];
+/* extras: scene icons and hints for each decision */
+var ICONS=["📝","📍","✂️","🧒","🚨","🕶️","🔔","♿","🗑️","🤖","⭐","📦"];
+var HINTS=[
+"Consent should be specific, in plain words, and never pre-ticked.",
+"Ask what the feature actually needs to work, and collect no more than that.",
+"Leaving should be as easy as joining.",
+"Children need extra safeguards, not fewer.",
+"People can only protect themselves if they know. Tell them directly.",
+"The safest setting should be the one users start with.",
+"Notifications should serve the user, not the engagement chart. Who is in control?",
+"If some people cannot use your app, who decided they did not matter?",
+"Deleting and hiding are not the same thing.",
+"A feature that fails some groups is not ready, and users deserve to know about known limits.",
+"A rating only means something if it reflects what real users think.",
+"Would users be surprised to learn where their data went?"];
+var LETTERS=["A","B","C"];
+var st,cur,$=function(s){return document.querySelector(s)};
+var calm=window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+/* loyal users spend more, angry users leave */
+function loyalty(t){return t>=70?4:t>=50?1:t>=30?0:-4}
+function money(n){return(n>0?"+$":n<0?"-$":"$")+Math.abs(n)+"k"}
+function plain(n){return(n>0?"+":"")+n}
+
+function show(id){document.querySelectorAll("main>section").forEach(function(s){s.hidden=s.id!==id});
+document.querySelectorAll("nav button").forEach(function(b){b.setAttribute("aria-current",b.dataset.go===id?"page":"false")});scrollTo(0,0)}
+function clamp(v){return Math.max(0,Math.min(100,v))}
+function trustColor(v){return v>=60?"var(--good)":v>=30?"var(--mid)":"var(--bad)"}
+function countTo(el,to){var from=parseInt(el.textContent,10)||0;if(calm||from===to){el.textContent=to;return}
+var t0=null;function f(t){if(t0===null)t0=t;var p=Math.min(1,(t-t0)/450);el.textContent=Math.round(from+(to-from)*p);if(p<1)requestAnimationFrame(f)}requestAnimationFrame(f)}
+function meters(){countTo($("#me"),st.e);
+$("#mt").style.width=st.t+"%";$("#mt").style.background=trustColor(st.t);
+$("#mg").style.width=st.g+"%";
+$("#mv").style.width=st.v+"%";$("#mv").style.background=st.v<20?"var(--bad)":"var(--rev)";
+$("#mtv").textContent=st.t+"%";$("#mgv").textContent=st.g+"%";$("#mvv").textContent="$"+st.v+"k/mo"}
+function pop(sel,txt,cls){var host=$(sel).closest(".m"),p=document.createElement("span");p.className="pop "+cls;p.textContent=txt;host.appendChild(p);setTimeout(function(){p.remove()},1250)}
+function confetti(n){if(calm)return;var box=$("#cf"),cols=["#0F6B66","#1E8E5A","#E8A33D","#F2C14E","#6FE3C4","#F07167","#4FC1B9"];
+for(var i=0;i<n;i++){var s=document.createElement("span");s.style.left=Math.random()*100+"%";s.style.background=cols[i%cols.length];
+s.style.setProperty("--dx",(Math.random()*160-80)+"px");s.style.animationDuration=(2+Math.random()*1.8)+"s";s.style.animationDelay=(Math.random()*.5)+"s";
+s.style.transform="rotate("+Math.random()*360+"deg)";box.appendChild(s)}
+setTimeout(function(){box.innerHTML=""},4600)}
+function toast(m){var t=$("#ts");t.textContent=m;t.classList.add("show");clearTimeout(toast.h);toast.h=setTimeout(function(){t.classList.remove("show")},2200)}
+function dots(){var h=$("#dt");h.innerHTML="";S.forEach(function(_,i){var s=document.createElement("span");
+if(i<st.log.length)s.className=st.log[i].k;else if(i===st.i)s.className="on";h.appendChild(s)})}
+function streak(){var s=$("#sk");if(st.s>=2){s.hidden=false;s.textContent="🔥 "+st.s+" principled picks in a row";s.className="streak hot"}else{s.hidden=true}}
+function chip(lbl,n,fmt){var cls=n>0?"up":n<0?"dn":"";return "<span class=\""+cls+"\">"+lbl+" "+fmt(n)+"</span>"}
+
+function start(){var nm=$("#an").value.trim();st={i:0,e:0,t:50,g:30,v:50,minT:50,log:[],s:0,b:0,h:0,name:nm||"DesignWise"};meters();load();show("play")}
+function load(){var s=S[st.i];$("#rd").textContent="Decision "+(st.i+1)+" of "+S.length+" · "+s.p;$("#tt").textContent=s.t;$("#cx").textContent=s.c;$("#fb").innerHTML="";
+$("#pa").textContent=s.q[0];$("#pw").textContent=s.q[1];$("#pq").textContent="“"+s.q[2]+"”";
+$("#ic").textContent=ICONS[st.i];$("#hn").innerHTML="";st.hinted=false;$("#hb").hidden=false;$("#hr").hidden=false;
+dots();streak();
+cur=s.o.slice().sort(function(){return Math.random()-.5});var h=$("#op");h.innerHTML="";
+cur.forEach(function(o,i){var b=document.createElement("button");b.className="opt";
+var l=document.createElement("span");l.className="l";l.textContent=LETTERS[i];var tx=document.createElement("span");tx.textContent=o.x;
+b.appendChild(l);b.appendChild(tx);b.onclick=function(){pick(i)};h.appendChild(b)})}
+function pick(i){var o=cur[i],s=S[st.i];
+st.e+=o.e;st.t=clamp(st.t+o.r);st.g=clamp(st.g+o.g);
+var d=loyalty(st.t),dv=o.v+d;st.v=clamp(st.v+dv);st.minT=Math.min(st.minT,st.t);meters();
+st.log.push({t:s.t,k:o.k,e:o.e,i:st.i,v:dv});
+if(o.k==="good"){st.s++;st.b=Math.max(st.b,st.s)}else st.s=0;
+pop("#me",plain(o.e),o.e>0?"good":"bad");pop("#mt",plain(o.r),o.r>0?"good":"bad");
+if(o.g!==0)pop("#mg",plain(o.g),o.g>0?"good":"bad");pop("#mv",money(dv),dv>0?"good":"bad");
+if(o.k==="good")confetti(36);
+if(o.k==="bad"&&!calm){var m=$("#mtr");m.classList.remove("shake");void m.offsetWidth;m.classList.add("shake")}
+$("#hr").hidden=true;dots();streak();
+document.querySelectorAll(".opt").forEach(function(b,j){b.disabled=true;b.classList.add(cur[j].k);if(j!==i)b.classList.add("dim")});
+var lab={good:"✅ Principled choice",mid:"⚖️ Compromise",bad:"⚠️ Risky shortcut"}[o.k]+" ("+plain(o.e)+" ethics points)";
+var fx=chip("💚 Trust",o.r,plain)+chip("🚀 Growth",o.g,plain)+chip("💰 Revenue",o.v,money);
+if(d>0)fx+="<span class=\"up\">📈 Loyal users "+money(d)+"</span>";else if(d<0)fx+="<span class=\"dn\">📉 Churn from low trust "+money(d)+"</span>";
+var over=st.t<=0?"trust":st.v<=0?"money":false,last=st.i===S.length-1;
+$("#fb").innerHTML="<div class=\"fb "+o.k+"\"><strong>"+lab+"</strong>"+o.f+"<div class=\"fx\">"+fx+"</div></div>";
+var n=document.createElement("button");n.className="btn";n.textContent=over?"See what happened":last?"See my results":"Next decision";
+n.onclick=function(){if(over||last)finish(over);else{st.i++;load();scrollTo(0,0)}};$("#fb").appendChild(n);n.focus()}
+function finish(over){var e=st.e,r=over==="trust"?"Users left: the app shut down":over==="money"?"Out of money: the app shut down":e>=90?"Ethical design lead":e>=50?"Responsible designer":e>=0?"Time for a rethink":"Dark-pattern danger";
+st.rank=r;
+$("#etr").textContent=over==="money"?"💸":over?"📉":e>=90?"🏆":e>=50?"🌟":e>=0?"🤔":"⚠️";
+$("#et").textContent=r;$("#es").textContent=e+" ethics points";
+var biz=st.v>=65?"Your business is thriving.":st.v>=35?"Your business is steady.":"Your business is struggling, but it survived.";
+$("#ev").textContent=over==="trust"?"Trust reached zero, so users abandoned "+st.name+". Growth gained by ignoring users does not last.":over==="money"?"Revenue reached zero, so "+st.name+" could not pay its bills. Principles matter, but an app also has to stay alive. Look for choices that protect users and keep the lights on.":"Final trust: "+st.t+"%. Growth: "+st.g+"%. Revenue: $"+st.v+"k a month. "+biz+" Ethical choices grow trust slowly, and trust is what keeps users.";
+var good=st.log.filter(function(x){return x.k==="good"}).length;
+var sb=$("#st4");sb.innerHTML="";[["Principled picks",good+"/"+S.length],["Best streak",st.b],["Hints used",st.h],["Final trust",st.t+"%"],["Growth",st.g+"%"],["Revenue","$"+st.v+"k"]].forEach(function(a){var d=document.createElement("div"),b=document.createElement("b");b.textContent=a[1];d.appendChild(b);d.appendChild(document.createTextNode(a[0]));sb.appendChild(d)});
+var B=[
+{e:"🏆",n:"Perfect run",d:"Every choice principled",on:good===S.length},
+{e:"🔥",n:"Hot streak",d:"6+ principled picks in a row",on:st.b>=6},
+{e:"🧠",n:"Own judgement",d:"Finished without hints",on:!over&&st.h===0},
+{e:"🛡️",n:"Trust keeper",d:"Ended with 80%+ trust",on:!over&&st.t>=80},
+{e:"💰",n:"Profit with principles",d:"7+ principled picks and $45k+ revenue",on:!over&&good>=7&&st.v>=45},
+{e:"💪",n:"Comeback",d:"Recovered from 30% trust or lower to 50%+",on:!over&&st.minT<=30&&st.t>=50}];
+var bd=$("#bd");bd.innerHTML="";B.forEach(function(x){var d=document.createElement("div");d.className="bdg "+(x.on?"on":"off");
+var em=document.createElement("span");em.className="e";em.textContent=x.e;var t=document.createElement("span"),nb=document.createElement("b");nb.textContent=x.n;t.appendChild(nb);t.appendChild(document.createTextNode(x.d));d.appendChild(em);d.appendChild(t);bd.appendChild(d)});
+var l=$("#lg");l.innerHTML="";st.log.forEach(function(x){var li=document.createElement("li");li.className=x.k;li.textContent=ICONS[x.i]+" "+x.t+": "+plain(x.e)+" points, "+money(x.v)+" revenue";l.appendChild(li)});
+show("end");if(!over&&e>=50)confetti(e>=90?90:50)}
+
+/* learn progress */
+(function(){var ds=document.querySelectorAll("#learn details"),seen={};
+ds.forEach(function(d,i){d.addEventListener("toggle",function(){if(d.open){seen[i]=1;var n=Object.keys(seen).length;
+$("#lp").style.width=(n/ds.length*100)+"%";$("#ll").textContent="Explored "+n+" of "+ds.length+" principles";
+if(n===ds.length){$("#sch").hidden=false;confetti(30)}}})})})();
+
+/* hint */
+$("#hb").addEventListener("click",function(){if(st.hinted)return;st.hinted=true;st.h++;
+var h=document.createElement("div");h.className="hint";h.textContent="💡 "+HINTS[st.i];$("#hn").appendChild(h);$("#hb").hidden=true});
+
+/* share */
+$("#sh").addEventListener("click",function(){var good=st.log.filter(function(x){return x.k==="good"}).length;
+var msg="I scored "+st.e+" ethics points in DesignWise and earned the title \""+st.rank+"\" ("+good+"/"+S.length+" principled choices, "+st.t+"% trust, $"+st.v+"k revenue). Can you beat it?";
+function ok(){toast("Score copied to clipboard")}
+function fallback(){var ta=document.createElement("textarea");ta.value=msg;ta.style.position="fixed";ta.style.opacity="0";document.body.appendChild(ta);ta.select();
+try{document.execCommand("copy");ok()}catch(e){toast("Could not copy")}ta.remove()}
+if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(msg).then(ok,fallback);else fallback()});
+
+/* theme */
+function isDark(){var t=document.documentElement.getAttribute("data-theme");return t?t==="dark":matchMedia("(prefers-color-scheme: dark)").matches}
+function themeIcon(){$("#th").textContent=isDark()?"☀️":"🌙"}
+try{var sv=localStorage.getItem("dw-theme");if(sv)document.documentElement.setAttribute("data-theme",sv)}catch(e){}
+themeIcon();
+$("#th").addEventListener("click",function(){var n=isDark()?"light":"dark";document.documentElement.setAttribute("data-theme",n);
+try{localStorage.setItem("dw-theme",n)}catch(e){}themeIcon()});
+
+document.addEventListener("click",function(ev){var b=ev.target.closest("[data-go],[data-start]");if(!b)return;
+if(b.hasAttribute("data-start"))return start();
+var g=b.dataset.go;if(g==="play"&&!st)return start();show(g)});
+show("home");
+</script>
+</body>
+</html>
